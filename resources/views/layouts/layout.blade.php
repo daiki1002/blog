@@ -9,10 +9,10 @@
     <title>{{ config('app.name') }} | @yield('title')</title>
 
     <!-- Scripts -->
-    <script src='js/app.js' defer></script>
+    <script src="{{ mix('js/app.js') }}" defer></script>
 
     <!-- Styles -->
-    <link href='css/app.css' rel="stylesheet">
+    <link href="{{ mix('css/app.css') }}" rel="stylesheet">
 </head>
 <body class="bg-white">
     <main class="pt-4">
