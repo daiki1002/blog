@@ -4,14 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
 use App\Models\Post;
 use App\Models\Category;
 
 class PostController extends Controller
 {
-    const LOCAL_STORAGE_FOLDER = 'public/images/';
-
     private $post;
     private $category;
 
@@ -45,21 +42,12 @@ class PostController extends Controller
         if(empty($request->image)){
             $this->post->image = null;
         }else{
-            $this->post->image = $this->saveImage($request);
+            $this->post->image = 'data:image/' . $request->image->extension() . ';base64,' . base64_encode(file_get_contents($request->image));
         }
 
         $this->post->save();
 
         return redirect()->route('home');
-    }
-
-    private function saveImage($request)
-    {
-        $image_name = time() . "." . $request->image->extension();
-
-        $request->image->storeAs(self::LOCAL_STORAGE_FOLDER, $image_name);
-
-        return $image_name;
     }
 
     public function show($id)
@@ -102,9 +90,7 @@ class PostController extends Controller
         $post->description = $request->description;
 
         if($request->image){
-            $this->deleteImage($post->image);
-
-            $post->image = $this->saveImage($request);
+            $post->image = 'data:image/' . $request->image->extension() . ';base64,' . base64_encode(file_get_contents($request->image));
         }
 
         $post->save();
@@ -112,20 +98,10 @@ class PostController extends Controller
         return redirect()->route('post.show', $id);
     }
 
-    public function deleteImage($image_name)
-    {
-        $image_path = self::LOCAL_STORAGE_FOLDER . $image_name;
-
-        if(Storage::disk('local')->exists($image_path)){
-            Storage::disk('local')->delete($image_path);
-        }
-    }
-
     public function delete($id)
     {   
         $post = $this->post->findOrFail($id);
 
-        $this->deleteImage($post->image);
         $post->destroy($post->id);
 
         return redirect()->route('home');

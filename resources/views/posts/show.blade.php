@@ -29,7 +29,7 @@
     </div>
     @if($post->image)
     <div class="container p-0">
-        <img src="{{ asset('/storage/images/' . $post->image) }}" alt="{{ $post->image }}" class="w-100">
+        <img src="{{ $post->image }}" alt="{{ $post->image }}" class="w-100">
     </div>
     @endif
     <div class="card-body">
@@ -74,7 +74,7 @@
                 <div class="mt-3">
                     <p class="text-muted mb-0">Title: {{ $post->title }}</p>
                     @if($post->image)
-                    <img src="{{ asset('/storage/images/' . $post->image) }}" alt="{{ $post->image }}" class="delete-post-img w-25">
+                    <img src="{{ $post->image }}" alt="{{ $post->image }}" class="delete-post-img w-25">
                     @endif
                     <p class="mt-1 text-muted">{{ $post->description }}</p>
                 </div>
