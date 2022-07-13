@@ -5,8 +5,8 @@
 @section('content')
 <div class="col-9 mx-auto">
     <div class="row gx-5">
-        <div class="col-lg-3">
-            <div class="bg-white align-items-center shadow-sm p-2 me-3 border">
+        <div class="col-lg-3 mb-3">
+            <div class="bg-white align-items-center shadow-sm p-2 border">
                 <form class="mb-3" action="{{ route('home') }}">
                     <label for="search_title">Title</label>
                     <div class="input-group">
@@ -75,7 +75,7 @@
                             <p class="card-text mb-0">{{ $post->description }}</p>
                             <div class="row align-items-center">
                                 <div class="col">
-                                    <p class="card-text text-muted mt-2 small">{{ date('d-m-y', strtotime($post->created_at)) }}</p>
+                                    <p class="card-text text-muted mt-2 small">{{ date("D, M d Y", strtotime($post->created_at)) }}</p>
                                 </div>
                                 <div class="col-auto">
                                     @if($post->isLiked())

@@ -39,7 +39,7 @@
         <p class="card-text mb-0">{{ $post->description }}</p>
         <div class="row align-items-center">
             <div class="col">
-                <p class="card-text text-muted mt-2 small">{{ date('d-m-y', strtotime($post->created_at)) }}</p>
+                <p class="card-text text-muted mt-2 small">{{ date("D, M d Y", strtotime($post->created_at)) }}</p>
             </div>
             <div class="col-auto">
                 @if($post->isLiked())
@@ -59,6 +59,42 @@
                 </form>
                 @endif
             </div>
+        </div>
+        <hr>
+        <div class="mt-3">
+            @if($post->comments)
+            <ul class="list-group mb-2">
+                @foreach($post->comments as $comment)
+                <li class="list-group-item border-0 p-0 mb-2">
+                    <p class="small d-inline text-success">{{ $comment->user->name }}</p>
+                    &nbsp;
+                    <p class="d-inline small">{{ $comment->body }}</p>
+
+                    <form action="{{ route('comment.delete', $comment->id) }}" method="post">
+                        @csrf
+
+                        <span class="small text-muted">{{ date("D, M d Y", strtotime($comment->created_at)) }}</span>
+
+                        @if ($comment->user->id === Auth::user()->id)
+                            &middot;
+                            <button type="submit" class="border-0 bg-transparent text-danger p-0 small">Delete</button>
+                        @endif
+                    </form>
+                </li>
+                @endforeach
+            </ul>
+            @endif
+            <form action="{{ route('comment.store' , $post->id) }}" method="post">
+                @csrf
+
+                <div class="input-group">
+                    <textarea name="comment_body" rows="1" class="form-control form-control-sm">{{ old('comment_body') }}</textarea>
+                    <button type="submit" class="btn btn-outline-secondary btn-sm">Comment</button>
+                </div>
+                @error('comment_body')
+                    <p class="text-danger small">{{ $message }}</p>
+                @enderror
+            </form>
         </div>
     </div>
 </div>

@@ -6,6 +6,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\LikeController;
+use App\Http\Controllers\CommentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -39,4 +40,7 @@ Route::group(['middleware' => ['auth']], function(){
 
     Route::get('/password/edit', [ProfileController::class, 'editPassword'])->name('password.edit');
     Route::patch('/password/update', [ProfileController::class, 'updatePassword'])->name('password.update');
+
+    Route::post('/comment/{id}/store', [CommentController::class, 'store'])->name('comment.store');
+    Route::post('/comment/{id}/delete', [CommentController::class, 'delete'])->name('comment.delete');
 });
