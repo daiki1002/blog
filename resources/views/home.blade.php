@@ -135,7 +135,7 @@
             @else
                 <div class="text-center">
                     <h2>NO POSTS YET</h2>
-                    <a href="{{ route('post.create') }}" class="text-decoration-none">Share your first posts</a>
+                    <a href="{{ route('post.create') }}" class="text-decoration-none">Share your first post</a>
                 </div>
             @endif
         </div>
